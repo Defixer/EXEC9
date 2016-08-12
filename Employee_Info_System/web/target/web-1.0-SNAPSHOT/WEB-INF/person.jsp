@@ -306,6 +306,11 @@
 					</div>
 				</form>
 			</div>
+			<div align = "center">
+				<form action = "${pageContext.request.contextPath}/MainPage">
+					<input type = "submit" value = "Cancel"/>
+				</form>
+			</div>
 		</div>
 		<br/><footer>
 			<label>&copy August 2016</label><br/>

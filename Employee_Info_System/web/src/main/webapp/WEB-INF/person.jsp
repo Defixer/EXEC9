@@ -299,11 +299,15 @@
 							</c:when>
 							<c:otherwise>
 								<p></p>
-								<input type = "submit" value = "Save" align = "center"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								<input type = "submit" value = "Cancel" align = "center"/>
+								<input type = "submit" value = "Update" align = "center"/>
 							</c:otherwise>
 						</c:choose>
 					</div>
+				</form>
+			</div>
+			<div align = "center">
+				<form action = "${pageContext.request.contextPath}/MainPage">
+					<input type = "submit" value = "Cancel"/>
 				</form>
 			</div>
 		</div>
