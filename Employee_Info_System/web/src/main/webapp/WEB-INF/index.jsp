@@ -114,7 +114,7 @@
 									</form>
 									<form class = "buttons" action = "${pageContext.request.contextPath}/EmployeeServlet" method = "post">
 										<input type = "hidden" name = "id" value = "${employeeId}">
-										<input type = "submit" onclick = "return confirm('WARNING!!! : Do you really want to delete this employee record?')" value = "Delete"/>
+										<input type = "submit" onclick = "return confirm('WARNING!!! : Do you really want to delete employee record of \n\t\t\t\t ${name.firstName} ${name.middleName} ${name.lastName}?')" value = "Delete"/>
 									</form>									
 								</td>
 							</tr>
