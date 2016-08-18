@@ -11,7 +11,10 @@ import com.hibernate.exercise6.model.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-public class ViewRoles extends HttpServlet{
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
+
+public class RolesController extends MultiActionController{
 	private static final long serialVersionUID = 1L;
 	private RoleService roleService = new RoleService();
 	private final String TAB_SPACES = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
