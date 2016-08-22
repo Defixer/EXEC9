@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8"/>
+		<title>Person</title>
+	</head>
+	<body>
+		<div th:with = "name = ${employee != null} ? ${employee.getName()}:''">
+			<div class = "row" th:with = "address = ${employee != null} ? ${employee.getAddress()}:''">
+				<div class = "column column-6" th:each = "error: ${errors}">
+					<span style = "color:red" th:text = "${error}">ERROR HERE</span>
+				</div>
+				<form action = "#" th:action = "@{/ListPeople/Employee}" method = "post">
+					<input type = "hidden" name = "employeeID" th:value = "#{employeeID == null} ? '':${{employee.getId()}}"/>
+					<div class = "column column-6" align = "center">
+						<fieldset style = "padding:1%">
+							<legend>Full Name:</legend>
+							<table>
+								<div>
+									<tr>
+										<td>
+											Title:
+										</td>
+										<td>
+											<input type = "text" name = "title" th:value = "${name == ''} ? '':${name.title}"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span class = "required">*</span>First Name:
+										</td>
+										<td>
+											<input type = "text" name = "firstName" th:value = "${name == ''} ? '':${name.firstName}"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span class = "required">*</span>Middle Name:
+										</td>
+										<td>
+											<input type = "text" name = "middleName" th:value = "${name == ''} ? '':${name.middleName}"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span class = "required">*</span>Last Name:
+										</td>
+										<td>
+											<input type = "text" name = "lastName" th:value = "${name == ''} ? '':${name.lastName}"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											Suffix:
+										</td>
+										<td>
+											<input type = "text" name = "suffix" th:value = "${name == ''} ? '':${name.suffix}"/>
+										</td>
+									</tr>
+								</div>
+							</table>
+						</fieldset>
+					</div>
+					<div class = "column column-6" align = "center">
+						<fieldset style = "padding:1%">
+							<legend>Other Information:</legend>
+							<table>
+								<div>
+									<tr>
+										<td>
+											<span class = "required">*</span>Birthday
+										</td>
+										<td>
+											<span th:if = "${employee != null}">
+												<span th:with = "birthday = ${employee.getOtherInfo().getBirthday() == null} ? null:${employee.getOtherInfo().getBirthday()}">
+													<input type = "text" name = "birthday" th:value = "${birthday == null} ? '':${#dates.format(birthday, 'yyyy/MM/dd')}" placeholder = "YYYY/MM/DD"/>
+												</span>
+											</span>
+											<span th:if = "${employee == null}">
+												<input type = "text" name = "birthday" th:value = "''" placeholder = "YYYY/MM/DD"/>
+											</span>
+										</td>
+									</tr>
+									<tr th:if = "${employee != null}">
+										<td>
+											<span class = "required">*</span>Employed:
+										</td>
+										<td>
+											<span th:if = "${employee.getIsEmployed()}">
+												<input type = "radio" name = "employed" value = "yes" checked = "true"/>Yes
+												<input type = "radio" name = "employed" value = "no"/>No	
+											</span>
+											<span th:unless = "${employee.getIsEmployed()}">
+												<input type = "radio" name = "employed" value = "yes"/>Yes
+												<input type = "radio" name = "employed" value = "no" checked = "true"/>No
+											</span>
+										</td>
+									</tr>
+									<tr th:unless = "${employee != null}">
+										<td>
+											<span class = "required">*</span>Employed
+										</td>
+										<td>
+											<input type = "radio" name = "employed" value = "yes"/>Yes
+											<input type = "radio" name = "employed" value = "no" checked = "true"/>No
+										</td>
+									</tr>
+									<tr th:with = "dateHired = ${employee != null} ? ${employee.getOtherInfo().getHireDate()}:''">
+										<td>
+											Date Hired:
+										</td>					
+										<td>
+											<span th:if = "${employee != null}">
+												<input type = "text" name = "dateHired" th:value = "${employee.getOtherInfo().getHireDate() != null} ? ${$dates.format(dateHired,'yyyy/MM/dd')}:''" placeholder = "(if employed) YYYY/MM/DD"/>
+											</span>
+											<span th:unless = "${employee != null}">
+												<input type = "text" name = "dateHired" th:value = "''" placeholder = "(if employed) YYYY/MM/DD"/>
+											</span>
+										</td>			
+									</tr>
+									<tr>
+										<td>
+											Roles:
+										</td>
+										<td>
+											<div th:each = "role:${roles}">
+												<input type = "checkbox" name = "role" th:value = "${role}" th:checked = "${__${role}____'Type'__==(role)} ? 'checked'"/>
+												<span th:switch = "${role}">
+													<span th:case = "'sd'">Software Developer</span>
+													<span th:case = "'qae'">Quality Assurance Engineer</span>
+													<span th:case = "'ie'">Infrastructure Engineer</span>
+													<span th:case = "'fo'">Finance Officer</span>
+													<span th:case = "'hro'">Human Resources Officer</span>
+												</span>
+												<br/>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span class = "required">*</span>GWA:
+										</td>
+										<td>
+											<input type = "text" name = "gwa" th:value = "${employee == null} ? '':${{employee.getOtherInfo().getGwa()}}">
+										</td>
+									</tr>
+								</div>
+							</table>
+						</fieldset>
+					</div>
+					<div class = "column column-6" align = "center">
+						<fieldset style = "padding:1%">
+							<legend>Address:</legend>
+							<table>
+								<div>
+									<tr>
+										<td>
+											<span class = "required">*</span>Street No:
+										</td>
+										<td>
+											<input type = "text" name = "streetNo" th:value = "${address == ''} ? '':${address.streetNo}"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span class = "required">*</span>Barangay:
+										</td>
+										<td>
+											<input type = "text" name = "brgy" th:value = "${address == ''} ? '':${address.brgy}"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span class = "required">*</span>City/Municipality:
+										</td>
+										<td>
+											<input type = "text" name = "cityMunicipality" th:value = "${address == ''} ? '':${address.cityMunicipality}"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span class = "required">*</span>Zipdcode
+										</td>
+										<td>
+											<input type = "text" name = "zipcode" th:value = "${address == ''} ? '':${address.zipcode}"/>
+										</td>
+									</tr>
+								</div>
+							</table>
+						</fieldset>					
+					</div>
+					<div class = "column column-6" align = "center">
+						<fieldset style = "padding:1%">
+							<legend>Contact:</legend>
+							<table>
+								<div>
+									<div th:each = "contact:${contactList}">
+										<tr>
+											<td>
+												<input type = "checkbox" th:onclick = "'document.getElementById(\'' + ${contact} + '\').disabled=!this.checked;'" name = "contacts" th:value = "${contact}" th:checked = "${__${contact}____'Checked'__} ? 'checked'"/>
+											</td>
+											<td>
+												<span th:switch = "${contact}">
+													<span th:case = "'landline'">Landline:</span>
+													<span th:case = "'mobile'">Mobile:</span>
+													<span th:case = "'email'">Email:</span>
+												</span>
+											</td>
+											<td>
+												<input type = "hidden" th:name = "${contact + 'Id'}" th:value = "${__${contact}____'Checked'__} ? ${__${contact}____'Id'__}"/>
+												<input type = "text" th:id = "${contact}" th:name = "${contact}" th:value = "${__${contact}____'Checked'__} ? ${__${contact}____'Value'__}"/>
+											</td>
+										</tr>
+									</div>
+								</div>
+							</table>
+						</fieldset>
+					</div>
+					<div align = "center" th:with = "action = ${employeeID == null} ? false:true">
+						<span th:if = "${action}">
+							<input type = "submit" name = "action" value = "save" align = "center"/>
+						</span>
+						<span th:unless = "${action}">
+							<input type = "submit" name = "action" value = "update" align = "cetner"/>					
+						</span>
+					</div>
+				</form>
+				<div align = "center">
+					<form action = "#" th:action = "@{/ListPeople}" method = "get">
+					<input type = "submit" value = "cancel" align = "center"/>				
+					</form>
+				</div>		
+			</div>
+		<div>
+		<style>
+			.required{
+				color:red;
+			}
+		</style>
+	</body>
+</html>

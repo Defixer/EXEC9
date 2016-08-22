@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<title>Welcome</title>
+	</head>
+	<body>
+		<h2 align = "center">Servlet Activity!</h2>
+		<div class="column column-6" align="center">
+			<div th:text="${message}">MESSAGE HERE</div>
+			<a th:href="@{/ListPeople}"> GO TO MAIN PAGE</a> 
+		</div>
+		<br/><br/>
+	</body>
+</html>

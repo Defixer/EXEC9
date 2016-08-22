@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8"/>
+		<title>MainPage</title>
+	</head>
+	<body>
+		<div class = "row">
+			<div class = "column column-6" align = "center">
+				<div class = "column column-6" th:each = "msg:${message}">
+					<span style = "color:green" th:text = "${msg}">MESSAGE HERE</span>			
+				</div>
+				<a th:href = "@{/ListPeople/Employee}">Add New Person</a>
+				<a th:href = "@{/ListPeople/ViewRoles}">View Roles</a>
+			
+				<form action = "#" th:action = "@{/ListPeople}" method = "get">
+					<input type = "radio" name = "sort" th:value = "byLastName"/>By Last Name<br/>
+					<input type = "radio" name = "sort" th:value = "byGWA"/>By GWA<br/>
+					<input type = "radio" name = "sort" th:value = "byDateHired"/>By Date Hired<br/>
+					<input type = "submit" th:value = "sort"/>
+				</form>
+				<table>
+					<tr>
+						<th>View</th>
+						<th>ID</th>
+						<th>Full Name</th>
+						<th>Address</th>
+						<th>GWA</th>
+						<th>Birthday</th>
+						<th>Employed</th>
+						<th>Contacts</th>
+						<th>Delete</th>
+					</tr>
+					<tr th:each = "employee: ${employees}">
+						<td>
+							<form class = "buttons" action = "#" th:action = "@{/ListPeople/Employee}" method = "get">
+								<input type = "hidden" name = "id" value = "" th:value = "${{employee.getId()}}"/>
+							</form>
+						</td>
+						<td th:text = "${{employee.getId()}}">ID HERE</td>
+						<td th:text = "${employee.getName()}">NAME HERE</td>
+						<td th:text = "${employee.getAddress()}">ID HERE</td>
+						<td th:text = "${employee.getOtherInfo().getGwa()}">ID HERE</td>
+						<td th:text = "${#dates.format(employee.getOtherInfo().getBirthday(),'yyyy/MM/dd')}">BIRTHDAY HERE</td>
+						<td>
+							<div th:if = "${employee.getOtherInfo().getIsEmployed()}">
+								<b>Date Hired: </b>
+								<br/>
+								<span th:text = "${#dates.format(employee.getOtherInfo().getHireDate(),'yyyy/MM/dd')}"></span>
+								<b>Roles:</b>
+								<br/>
+								<div th:each = "role:${employee.getRole()}">
+									<span th:text = "${role}"></span>
+								</div>
+							</div>
+							<div th:unless = "${employee.getOtherInfo().getIsEmployed()}">
+							NOT EMPLOYED!
+							</div>
+						</td>
+						<td>
+							<div th:each = "contact: ${employee.getContacts()}">
+								<b>
+									<span th:text = "${contact.getContactType()}">CONTACT TYPE HERE</span>
+								</b>
+									<span th:text = "${contact.getContactDetails()}">CONTACT VALUE HERE</span>
+									<br/>							
+							</div>
+							<div th:if = "${#lists.isEmpty(employee.getContacts())}">
+								NO CONTACTS!
+							</div>
+							<br/>
+						</td>
+						<td>
+							<form class = "buttons" action = "#" th:action = "@{/ListPeople}" method = "post">
+								<input type = "hidden" name = "id" value = "" th:value = "${{employee.getId()}}"/>
+								<input type = "submit" name = "action" th:value = "delete"/>
+							</form>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<style>
+			table{
+				border-collapse: collapse;
+				width:90%;
+			}
+			table, th, td{
+				border: 1px solid black;
+			}
+			td{
+				text-align:center;
+			}
+			.buttons{
+				align-items:center;
+			}
+		</style>
+	</body>
+</html>

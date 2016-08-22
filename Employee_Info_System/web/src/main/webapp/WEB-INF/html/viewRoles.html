@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8"/>
+		<title>List of Roles HTML</title>
+	</head>
+	<body>
+		<table border = "solid">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Roles</th>
+					<th>Test</th>
+					<th>POST</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each = "role : ${roles}">
+					<td th:text = "${{role.getId()}}">ID HERE</td>
+					<td th:text = "${{role.getRoleName()}}">Roles HERE</td>
+					<td>
+						<form action = "#" th:action = "@{/ViewRoles}" method = "get">
+							<input type = "hidden" name = "roleId" value = "" th:value = "${{role.getId()}}"/>
+							<button type = "submit" name = "action" th:value = "test">test this</button>						
+						</form>
+					</td>
+					<td>
+						<form action = "#" th:action = "@{/ViewRoles}" method = "POST">
+							<input type = "hidden" name = "roleId" value = "" th:value = "${{role.getId()}}"/>
+							<button type = "submit" name = "action" th:value = "test">test this</button>
+						
+						</form>
+					</td>
+				</tr>
+			</tbody>			
+		</table><br/>
+	</body>
+</html>
